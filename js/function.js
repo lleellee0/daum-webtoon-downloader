@@ -28,11 +28,20 @@ const downloadWebtoon = () => {
 
   let webtoon_ids = [];
 
+  let cookieJar = request.jar();  // 19세 이상 인증 웹툰에 대해서는 19세 이상인 다음 아이디로 로그인 된 계정에서 쿠키를 가져와야함.
+  cookieJar.setCookie(`HM_CU=${hmCu}; path=/; domain=daum.net`, 'http://webtoon.daum.net');
+  cookieJar.setCookie(`HTS=${hts}; path=/; domain=daum.net`, 'http://webtoon.daum.net');
+  cookieJar.setCookie(`PROF=${prof}; path=/; domain=daum.net`, 'http://webtoon.daum.net');
+  cookieJar.setCookie(`TS=${ts}; path=/; domain=daum.net`, 'http://webtoon.daum.net');
+  cookieJar.setCookie(`LSID=${lsid}; path=/; domain=daum.net`, 'http://webtoon.daum.net');
+
   request({
+    jar:cookieJar,
     uri:webtoonUrl.replace('/webtoon/view', '/data/pc/webtoon/view'),
   }, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       let json_body = JSON.parse(body);
+      console.log(body);
       let webtoon_episodes = json_body.data.webtoon.webtoonEpisodes;
       
       webtoon_episodes.forEach(v => {
@@ -120,22 +129,22 @@ const setViewerImages = () => {
 }
 
 const setTopBottomMenu = () => {
-  let topPrev = document.getElementById("top_prev");
-  let topNext = document.getElementById("top_next");
+  // let topPrev = document.getElementById("top_prev");
+  // let topNext = document.getElementById("top_next");
   let topList = document.getElementById("top_list");
-  let bottomPrev = document.getElementById("bottom_prev");
-  let bottomNext = document.getElementById("bottom_next");
+  // let bottomPrev = document.getElementById("bottom_prev");
+  // let bottomNext = document.getElementById("bottom_next");
   let bottomList = document.getElementById("bottom_list");
 
   let no = parseInt(paddingNumber("0000", getUrlVars()["no"]), 10);
   let path = decodeURI(getUrlVars()["path"]);
   console.log(no);
   
-  $(topPrev).append(`<a href="detail.html?no=${paddingNumber("0000", no-1)}&path=${path}">이전화</a>`);
-  $(topNext).append(`<a href="detail.html?no=${paddingNumber("0000", no+1)}&path=${path}">다음화</a>`);
+  // $(topPrev).append(`<a href="detail.html?no=${paddingNumber("0000", no-1)}&path=${path}">이전화</a>`);
+  // $(topNext).append(`<a href="detail.html?no=${paddingNumber("0000", no+1)}&path=${path}">다음화</a>`);
   $(topList).append(`<a href="list.html?path=${path}">목록으로</a>`);
-  $(bottomPrev).append(`<a href="detail.html?no=${paddingNumber("0000", no-1)}&path=${path}">이전화</a>`);
-  $(bottomNext).append(`<a href="detail.html?no=${paddingNumber("0000", no+1)}&path=${path}">다음화</a>`);
+  // $(bottomPrev).append(`<a href="detail.html?no=${paddingNumber("0000", no-1)}&path=${path}">이전화</a>`);
+  // $(bottomNext).append(`<a href="detail.html?no=${paddingNumber("0000", no+1)}&path=${path}">다음화</a>`);
   $(bottomList).append(`<a href="list.html?path=${path}">목록으로</a>`);
 }
 
