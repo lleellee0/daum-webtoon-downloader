@@ -12,13 +12,13 @@ const findWebToonImages = (article_id, path, hmCu, hts, prof, ts, lsid, retryCou
 
   request({
     jar:cookieJar,
-    uri:`http://webtoon.daum.net/webtoon/viewer/${article_id}`,
+    uri:`http://webtoon.daum.net/data/pc/webtoon/viewer_images/${article_id}`,
   }, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      const $ = cheerio.load(body);
+      let json_body = JSON.parse(body);
 
-      let endNumber = $('.cont_view img').length;
-      let uriArr = $('.cont_view img');
+      let endNumber = json_body.data.length;
+      let uriArr = json_body.data;
 
       downloadImages.downloadWebToonImages(
         uriArr,
