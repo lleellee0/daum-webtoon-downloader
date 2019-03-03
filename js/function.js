@@ -1,6 +1,7 @@
 const findImages = require('./js/findImages.js');
 const log = require('./js/log.js');
 const fs = require('fs');
+const request = require('request');
 
 // Add Event Lintener
 let inputFakePath = document.getElementById("fake-path");
@@ -16,19 +17,38 @@ $(inputRealPath).on('change', function(event) {
 });
 
 const downloadWebtoon = () => {
-  log.addLog(`다운로드를 시작합니다. 그림이 실제로 다운로드가 안될 경우 입력하신 값들(특히 NID_AUT, NID_SES)을 다시 확인하세요.`);
-
-  let titleId = document.getElementById("titleId").value;
-  let startNo = document.getElementById("startNo").value;
-  let endNo = document.getElementById("endNo").value;
+  log.addLog(`다운로드를 시작합니다. 그림이 실제로 다운로드가 안될 경우 입력하신 값들(특히 HM_CU, HTS, PROF, TS, LSID)을 다시 확인하세요.`);
+  let webtoonUrl = document.getElementById("webtoon-url").value;
   let path = document.getElementById("path").files[0].path;
-  let nidAut = document.getElementById("nidAut").value;
-  let nidSes = document.getElementById("nidSes").value;
-  
-  for(let i = startNo ,j = 0; i <= endNo; i++, j++)
-    setTimeout(() => {
-      findImages.findWebToonImages(titleId, i, path, nidAut, nidSes);
-    }, j * 2 * 1000);
+  let hmCu = document.getElementById("hmCu").value;
+  let hts = document.getElementById("hts").value;
+  let prof = document.getElementById("prof").value;
+  let ts = document.getElementById("ts").value;
+  let lsid = document.getElementById("lsid").value;
+
+  let webtoon_ids = [];
+
+  request({
+    uri:webtoonUrl.replace('/webtoon/view', '/data/pc/webtoon/view'),
+  }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      let json_body = JSON.parse(body);
+      let webtoon_episodes = json_body.data.webtoon.webtoonEpisodes;
+      
+      webtoon_episodes.forEach(v => {
+        if(v.serviceType === "free")
+          webtoon_ids.push(v.articleId);
+      });
+      
+      log.addLog(`총 ${webtoon_episodes.length}화 중 ${webtoon_ids.length}화가 무료입니다.(에피소드, 에필로그 등 포함) 무료인 화에 대해 다운로드 하겠습니다.`);
+      
+      for(let i = 0 ,j = 0; i < webtoon_ids.length; i++, j++)
+        setTimeout(() => {
+          findImages.findWebToonImages(webtoon_ids[i], path, hmCu, hts, prof, ts, lsid, 3);
+        }, j * 2 * 1000);
+    }
+  });
+
   return false;
 }
 

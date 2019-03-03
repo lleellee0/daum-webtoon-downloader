@@ -1,6 +1,6 @@
 {
-  "name": "naver-webtoon-downloader",
-  "version": "0.1.4",
+  "name": "daum-webtoon-downloader",
+  "version": "0.1.0",
   "description": "",
   "main": "main.js",
   "scripts": {
