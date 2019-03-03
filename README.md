@@ -34,7 +34,7 @@
 **3.** 어떤 웹툰을 받을지는 입력했습니다. 이제 이 웹툰의 이미지들을 어디에 받을지 지정해야합니다.
 [Select Download Path]을 선택하면 '폴더'를 선택할 수 있는 창이 뜹니다. 가급적 폴더를 새로 만들고 그 폴더로 지정하시기 바랍니다.
 
-![폴더선택](https://github.com/lleellee0/images/blob/master/20190303_193808.png?raw=true)![다운로드 준비 완료]()
+![폴더선택](https://github.com/lleellee0/images/blob/master/20190303_193808.png?raw=true)![다운로드 준비 완료](https://github.com/lleellee0/images/blob/master/20190303_193834.png?raw=true)
 
 이제 다운로드 준비가 완료되었습니다. [Start Download] 버튼을 눌러 다운로드를 하고 
 지정하신 폴더로 가서 다운로드가 제대로 되는지 확인하시기 바랍니다.
