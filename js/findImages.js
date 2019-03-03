@@ -6,9 +6,12 @@ const log = require('./log.js')
 const findWebToonImages = (article_id, path, hmCu, hts, prof, ts, lsid, retryCount) => { // titleId is Webtoon's id, no is Sequence's id
   console.log(`${article_id}화 저장중..`);
   log.addLog(`${article_id}화를 저장중입니다.`)
-  let cookieJar = request.jar();  // 19세 이상 인증 웹툰에 대해서는 19세 이상인 네이버 아이디로 로그인 된 계정에서 쿠키를 가져와야함.
-  // cookieJar.setCookie(`NID_AUT=${nid_aut}; path=/; domain=naver.com`, 'http://comic.naver.com');
-  // cookieJar.setCookie(`NID_SES=${nid_ses}; path=/; domain=naver.com`, 'http://comic.naver.com');
+  let cookieJar = request.jar();  // 19세 이상 인증 웹툰에 대해서는 19세 이상인 다음 아이디로 로그인 된 계정에서 쿠키를 가져와야함.
+  cookieJar.setCookie(`HM_CU=${hmCu}; path=/; domain=daum.net`, 'http://webtoon.daum.net');
+  cookieJar.setCookie(`HTS=${hts}; path=/; domain=daum.net`, 'http://webtoon.daum.net');
+  cookieJar.setCookie(`PROF=${prof}; path=/; domain=daum.net`, 'http://webtoon.daum.net');
+  cookieJar.setCookie(`TS=${ts}; path=/; domain=daum.net`, 'http://webtoon.daum.net');
+  cookieJar.setCookie(`LSID=${lsid}; path=/; domain=daum.net`, 'http://webtoon.daum.net');
 
   request({
     jar:cookieJar,
